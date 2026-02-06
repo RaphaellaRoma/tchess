@@ -1,7 +1,8 @@
 import numpy as np
+from tabuleiro import ChessBoard
 
 state = 'start'
-tabuleiro = np.zeros((8, 8))
+tabuleiro = ChessBoard()
 
 def start():
     print("Olá! Bem-vindo ao TerminalChess")
@@ -13,13 +14,36 @@ def start():
 
     return input("Selecione o modo: ")
 
+
+
+def verifica_cord(cord):
+    if len(cord)!=2:
+        raise ValueError('Coordenada inválida')
+    letra, numero = cord[0].lower() , cord[1]
+    if letra <'a' or letra > 'h':
+        raise ValueError('Coluna inválida')
+    if numero < '1' or numero > '8':
+        raise ValueError('Linha inválida')
+
+    return (ord(letra)-ord('a'), numero)
+
+
+
 def jogador_1():
     origem = input("Jogador 1 (brancas) selecione uma peça ")
+    origem = verifica_cord(origem)
     destino = input("Mova a peça ")
+    destino = verifica_cord(destino)
+    
 
 def jogador_2():
     origem = input("Jogador 2 (pretas) selecione uma peça ")
+    origem = verifica_cord(origem)
     destino = input("Mova a peça ")
+    destino = verifica_cord(destino)
+
+
+
 
 while state != 'finish':
     if state == 'start':
@@ -28,7 +52,7 @@ while state != 'finish':
             print('Não disponível, selecione outro')
             modo = start()
 
-        print(tabuleiro)
+        tabuleiro.show()
 
         jogador_1()
         jogador_2()
